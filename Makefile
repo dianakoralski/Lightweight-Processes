@@ -16,25 +16,25 @@ EXTRACLEAN  = core $(PROGS)
 all: $(PROGS)
 
 clean:
-	rm -f $(OBJS) $(EXTRACLEAN) lwp.o magic64.o libLWP.a libLWP.so libsnakes.so
+	rm -f $(OBJS) $(EXTRACLEAN) lwp.o magic64.o liblwp.a liblwp.so libsnakes.so
 
 
-snakes: randomsnakes.o libLWP.so libsnakes.so
+snakes: randomsnakes.o liblwp.so libsnakes.so
 	#$(LD) $(LDFLAGS) -o snakes randomsnakes.o -L. -lncurses -lsnakes -lLWP -lPLN
-	$(LD) $(LDFLAGS) -o snakes randomsnakes.o  libsnakes.a libLWP.a libPLN.a -lncurses
-hungry: hungrysnakes.o libLWP.so libsnakes.so
+	$(LD) $(LDFLAGS) -o snakes randomsnakes.o  libsnakes.a liblwp.a libPLN.a -lncurses
+hungry: hungrysnakes.o liblwp.so libsnakes.so
 	#$(LD) $(LDFLAGS) -o hungry hungrysnakes.o -L. -lncurses -lsnakes -lLWP -lPLN
-	$(LD) $(LDFLAGS) -o hungry hungrysnakes.o libsnakes.a libLWP.a libPLN.a -lncurses
+	$(LD) $(LDFLAGS) -o hungry hungrysnakes.o libsnakes.a liblwp.a libPLN.a -lncurses
 
 
 libsnakes.so:
 	$(LD) -shared -o libsnakes.so libsnakes.a
-nums: numbersmain.o libLWP.so
-	$(LD) $(LDFLAGS) -o nums numbersmain.o libLWP.a libPLN.a -lncurses
+nums: numbersmain.o liblwp.so
+	$(LD) $(LDFLAGS) -o nums numbersmain.o liblwp.a libPLN.a -lncurses
 
 
-libLWP.so: libLWP.a
-	$(LD) -shared -o libLWP.so libLWP.a
+liblwp.so: liblwp.a
+	$(LD) -shared -o liblwp.so liblwp.a
 
 hungrysnakes.o: lwp.h snakes.h
 
@@ -42,9 +42,9 @@ randomsnakes.o: lwp.h snakes.h
 
 numbersmain.o: lwp.h
 
-libLWP.a: 
+liblwp.a: 
 	$(CC) -c lwp.c util.c rr.c list.c
-	ar r libLWP.a lwp.o util.o rr.o list.o
+	ar r liblwp.a lwp.o util.o rr.o list.o
 	rm lwp.o util.o rr.o list.o
 
 submission:
